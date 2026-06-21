@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Immersia Solusi Analitika</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════
+   BRAND COLOURS (Immersia Brand Guide p.15-17)
+   Moonstone  #519CAB  → 30% dominant
+   White      #FFFFFF  → 30% space / bg sections
+   Saffron    #FFC64F  → 10% accent
+   Light Blue #C3E7F1  → 10% accent
+   Gray       #909B9D  → 10% supporting
+   Gunmetal   #20373B  → 20% dark text / dark sections
+   ══════════════════════════════════════════ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  /* Brand palette */
+  --moon:     #519CAB;
+  --moon-d:   #3d7a88;
+  --moon-dd:  #294E56;
+  --moon-ddd: #20373B; /* Gunmetal */
+  --moon-l:   #A8CED5;
+  --moon-ll:  #C3E7F1; /* Light Blue */
+  --moon-lll: #E1F3F8;
+  --gold:     #FFC64F; /* Saffron */
+  --gold-d:   #d5a542;
+  --gray:     #909B9D;
+  --gray-l:   #D2D7D8;
+  --white:    #FFFFFF;
+  --off-white:#F3FAFC;
+
+  /* Dark hero bg — deep gunmetal */
+  --hero-bg:  #0d1c1f;
+  --hero-bg2: #0a1618;
+
+  /* Text */
+  --txt-dark: #20373B;
+  --txt-mid:  #44585C;
+  --txt-muted:#6A7A7C;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Manrope', sans-serif;
+  background: var(--white);
+  color: var(--txt-dark);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--hero-bg); }
+::-webkit-scrollbar-thumb { background: var(--moon-dd); }
+
+/* ────────────────────── NAV ────────────────────── */
+#nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+  height: 68px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 64px;
+  border-bottom: 1px solid transparent;
+  transition: background .4s, border-color .4s, backdrop-filter .4s;
+}
+#nav.stuck {
+  background: rgba(13, 28, 31, .92);
+  backdrop-filter: blur(20px);
+  border-color: rgba(81,156,171,.3);
+}
+.logo { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+.logo-svg { width: 34px; height: 38px; flex-shrink: 0; }
+.logo-txt .l1 { display: block; font-size: 16px; font-weight: 900; letter-spacing: 4px; color: #fff; line-height: 1; }
+.logo-txt .l2 { display: block; font-size: 7.5px; font-weight: 600; letter-spacing: 3.5px; color: var(--moon-ll); margin-top: 3px; text-transform: uppercase; }
+
+.nav-links { display: flex; list-style: none; }
+.nav-links a {
+  display: block; padding: 8px 18px;
+  font-size: 11px; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase;
+  color: rgba(255,255,255,.55); text-decoration: none;
+  transition: color .2s; position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: 3px; left: 18px; right: 18px;
+  height: 1.5px; background: var(--gold);
+  transform: scaleX(0); transform-origin: left; transition: transform .3s;
+}
+.nav-links a:hover { color: #fff; }
+.nav-links a:hover::after { transform: scaleX(1); }
+
+.nav-cta {
+  background: var(--gold); color: var(--hero-bg);
+  padding: 10px 24px; border: none;
+  font-family: 'Manrope', sans-serif; font-size: 11px; font-weight: 800;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  cursor: pointer; transition: opacity .2s;
+}
+.nav-cta:hover { opacity: .85; }
+
+/* ────────────────────── HERO ────────────────────── */
+/* Dark gunmetal section = Gunmetal 20% usage */
+#hero {
+  position: relative; min-height: 100vh;
+  display: flex; align-items: center;
+  overflow: hidden;
+  background: var(--hero-bg2);
+}
+.hero-bg-grad {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 90% at 0% 50%,  rgba(41,78,86,.75) 0%,  transparent 65%),
+    radial-gradient(ellipse 50% 60% at 100% 15%, rgba(255,198,79,.09) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 50% at 55% 100%, rgba(81,156,171,.14) 0%, transparent 60%),
+    linear-gradient(155deg, #0d2428 0%, var(--hero-bg2) 45%, #060e10 100%);
+}
+.hero-aurora {
+  position: absolute; inset: 0;
+  background:
+    conic-gradient(from 200deg at 12% 55%, transparent 0deg, rgba(81,156,171,.06) 45deg, transparent 90deg),
+    conic-gradient(from 25deg  at 88% 20%, transparent 0deg, rgba(255,198,79,.05) 35deg, transparent 70deg);
+  animation: aurora 20s ease-in-out infinite alternate;
+}
+@keyframes aurora { 0% { opacity: .6; transform: scale(1); } 100% { opacity: 1; transform: scale(1.06); } }
+#hero-canvas { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+
+.hero-inner {
+  position: relative; z-index: 2;
+  max-width: 1200px; width: 100%; margin: 0 auto;
+  padding: 140px 64px 100px;
+  display: grid; grid-template-columns: 1fr 380px; gap: 72px; align-items: center;
+}
+
+.hero-chip {
+  display: inline-flex; align-items: center; gap: 10px;
+  border: 1px solid rgba(81,156,171,.35); background: rgba(81,156,171,.08);
+  padding: 8px 18px; margin-bottom: 32px;
+}
+.chip-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); animation: blink 2.4s ease-in-out infinite; }
+@keyframes blink { 0%,100% { opacity:1; } 50% { opacity:.3; } }
+.chip-txt { font-size: 10px; font-weight: 700; letter-spacing: 2.5px; color: var(--moon-ll); text-transform: uppercase; }
+
+.hero-h1 {
+  font-size: clamp(40px, 5.2vw, 68px);
+  font-weight: 900; line-height: 1.04; letter-spacing: -2px;
+  color: #fff; margin-bottom: 26px;
+}
+.h1-teal  { color: var(--moon); }
+.h1-gold  { color: var(--gold); display: block; }
+
+.hero-p {
+  font-size: 15px; font-weight: 400; line-height: 1.9;
+  color: rgba(255,255,255,.58); max-width: 480px; margin-bottom: 44px;
+}
+.hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+.btn-fill {
+  display: inline-block; background: var(--gold); color: var(--hero-bg);
+  padding: 14px 32px; font-family: 'Manrope', sans-serif;
+  font-size: 12px; font-weight: 800; letter-spacing: 1.5px;
+  text-transform: uppercase; text-decoration: none;
+  transition: opacity .2s, transform .15s;
+}
+.btn-fill:hover { opacity: .88; transform: translateY(-2px); }
+.btn-outline {
+  display: inline-block; background: transparent; color: rgba(255,255,255,.85);
+  padding: 14px 32px; font-family: 'Manrope', sans-serif;
+  font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; text-decoration: none;
+  border: 1.5px solid rgba(81,156,171,.4);
+  transition: border-color .25s, color .25s;
+}
+.btn-outline:hover { border-color: var(--moon); color: var(--moon); }
+
+/* Hero stats card */
+.hero-card {
+  background: rgba(10,22,24,.65);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(81,156,171,.3);
+  position: relative; overflow: hidden;
+}
+.hero-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--moon), var(--gold));
+}
+.hc-head {
+  padding: 26px 30px; border-bottom: 1px solid rgba(81,156,171,.2);
+}
+.hc-head-lbl { font-size: 9px; font-weight: 800; letter-spacing: 2.5px; color: var(--moon); text-transform: uppercase; margin-bottom: 7px; }
+.hc-head-sub { font-size: 13.5px; font-weight: 600; color: rgba(255,255,255,.85); line-height: 1.5; }
+.hc-stat {
+  display: flex; align-items: center; gap: 14px;
+  padding: 18px 30px; border-bottom: 1px solid rgba(81,156,171,.15);
+  transition: background .2s;
+}
+.hc-stat:last-child { border-bottom: none; }
+.hc-stat:hover { background: rgba(81,156,171,.05); }
+.hc-ico {
+  width: 36px; height: 36px; border: 1px solid rgba(81,156,171,.35);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; flex-shrink: 0;
+}
+.hc-val { font-size: 20px; font-weight: 900; color: #fff; letter-spacing: -1px; line-height: 1; }
+.hc-val sup { font-size: 10px; font-weight: 700; color: var(--gold); vertical-align: super; margin-left: 2px; }
+.hc-lbl { font-size: 10.5px; font-weight: 500; color: rgba(255,255,255,.5); margin-top: 3px; }
+
+/* Scroll indicator */
+.hero-scroll {
+  position: absolute; bottom: 32px; left: 64px; z-index: 2;
+  display: flex; align-items: center; gap: 12px;
+  color: rgba(255,255,255,.3); font-size: 9px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+}
+.scroll-line {
+  width: 40px; height: 1px;
+  background: linear-gradient(90deg, var(--moon), transparent);
+  animation: sline 2.2s ease-in-out infinite;
+}
+@keyframes sline { 0%,100%{opacity:.4;transform:scaleX(1)} 50%{opacity:1;transform:scaleX(1.3)} }
+
+/* ────────────────────── SECTION BASE ────────────────────── */
+/* White 30% = light sections */
+.sec-white { background: var(--white); }
+/* Moonstone-light 30% = subtle tinted sections */
+.sec-tint  { background: var(--off-white); }
+/* Gunmetal dark sections = 20% dark usage */
+.sec-dark  { background: var(--moon-ddd); }
+
+.sec { padding: 112px 64px; }
+.wrap { max-width: 1200px; margin: 0 auto; }
+
+.eyebrow {
+  display: flex; align-items: center; gap: 14px;
+  font-size: 10px; font-weight: 800; letter-spacing: 3px;
+  color: var(--moon); text-transform: uppercase; margin-bottom: 18px;
+}
+.eyebrow::before { content: ''; width: 22px; height: 1.5px; background: var(--gold); flex-shrink: 0; }
+
+/* Eyebrow on dark bg */
+.sec-dark .eyebrow { color: var(--moon-ll); }
+
+.sec-h {
+  font-size: clamp(28px, 3.6vw, 48px);
+  font-weight: 900; letter-spacing: -1.5px; line-height: 1.08;
+  color: var(--txt-dark); margin-bottom: 16px;
+}
+.sec-h em { font-style: normal; color: var(--moon); }
+.sec-dark .sec-h { color: #fff; }
+.sec-dark .sec-h em { color: var(--gold); }
+
+.sec-lead { font-size: 15px; color: var(--txt-muted); line-height: 1.85; max-width: 520px; }
+.sec-dark .sec-lead { color: rgba(255,255,255,.55); }
+
+/* ────────────────────── ABOUT (White bg) ────────────────────── */
+#about { background: var(--white); }
+
+.about-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 0; margin-top: 64px;
+  border: 1px solid var(--moon-ll);
+  position: relative;
+}
+.about-grid::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--moon) 0%, var(--gold) 60%, transparent 100%);
+}
+.about-col {
+  padding: 56px 52px;
+}
+.about-col:first-child { border-right: 1px solid var(--moon-ll); }
+
+.col-tag {
+  font-size: 9.5px; font-weight: 800; letter-spacing: 3px;
+  color: var(--gold); text-transform: uppercase;
+  margin-bottom: 22px; display: flex; align-items: center; gap: 10px;
+}
+.col-tag::before { content: ''; width: 16px; height: 1.5px; background: var(--moon); flex-shrink: 0; }
+
+.about-col h3 { font-size: 22px; font-weight: 800; color: var(--txt-dark); margin-bottom: 18px; letter-spacing: -.4px; line-height: 1.25; }
+.about-col p  { font-size: 14px; color: var(--txt-mid); line-height: 1.95; }
+
+/* Sector list — moonstone accent left border */
+.sector-list { margin-top: 32px; border: 1px solid var(--moon-ll); }
+.sr {
+  display: flex; align-items: center; gap: 16px;
+  padding: 15px 20px; border-bottom: 1px solid var(--moon-lll);
+  font-size: 13.5px; font-weight: 600; color: var(--txt-dark);
+  transition: background .2s, padding-left .25s; cursor: default;
+  border-left: 3px solid transparent;
+}
+.sr:last-child { border-bottom: none; }
+.sr:hover { background: var(--off-white); padding-left: 28px; border-left-color: var(--moon); }
+.sr-num { font-size: 9px; font-weight: 800; letter-spacing: 1px; color: var(--moon); min-width: 22px; }
+
+/* ────────────────────── SOLUTIONS (Tinted bg) ────────────────────── */
+#solutions { background: var(--off-white); }
+.sol-top {
+  display: grid; grid-template-columns: 1.1fr 1fr; gap: 60px;
+  align-items: flex-end; margin-bottom: 56px;
+}
+.sol-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 0; border: 1px solid var(--moon-ll);
+}
+.sol-c {
+  padding: 44px 36px; position: relative; overflow: hidden;
+  background: var(--white);
+  transition: background .25s;
+  border-right: 1px solid var(--moon-ll);
+}
+.sol-c:last-child { border-right: none; }
+.sol-c:hover { background: var(--moon-lll); }
+
+/* Hover top bar — moonstone to gold */
+.sol-bar {
+  position: absolute; top: 0; left: 0; width: 0; height: 3px;
+  background: linear-gradient(90deg, var(--moon), var(--gold));
+  transition: width .4s;
+}
+.sol-c:hover .sol-bar { width: 100%; }
+
+/* Large ghost number — brand data feel */
+.sol-ghost {
+  position: absolute; bottom: -12px; right: 12px;
+  font-size: 96px; font-weight: 900;
+  color: rgba(81,156,171,.06); letter-spacing: -4px; line-height: 1;
+  pointer-events: none; user-select: none;
+}
+.sol-icon {
+  width: 46px; height: 46px; border: 1px solid var(--moon-ll);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; margin-bottom: 22px; background: var(--off-white);
+}
+.sol-c h3 { font-size: 18px; font-weight: 800; color: var(--txt-dark); margin-bottom: 12px; letter-spacing: -.3px; }
+.sol-c p  { font-size: 13.5px; color: var(--txt-mid); line-height: 1.8; margin-bottom: 22px; }
+.sol-tags { display: flex; flex-wrap: wrap; gap: 7px; }
+.sol-tag {
+  font-size: 9px; font-weight: 700; letter-spacing: 1.5px;
+  color: var(--moon-d); border: 1px solid var(--moon-ll);
+  padding: 4px 10px; text-transform: uppercase;
+  background: var(--off-white);
+}
+
+/* ────────────────────── HOW WE WORK (White bg) ────────────────────── */
+#how { background: var(--white); }
+.how-steps {
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  gap: 0; margin-top: 56px;
+  border: 1px solid var(--moon-ll);
+  position: relative;
+}
+/* Bottom accent bar */
+.how-steps::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--moon), var(--gold), var(--moon));
+}
+.step {
+  padding: 36px 28px; border-right: 1px solid var(--moon-ll);
+  transition: background .2s; position: relative;
+}
+.step:last-child { border-right: none; }
+.step:hover { background: var(--off-white); }
+.step-n {
+  width: 34px; height: 34px;
+  border: 1.5px solid var(--moon-ll);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 900; color: var(--moon);
+  margin-bottom: 20px;
+}
+.step h4 { font-size: 14px; font-weight: 800; color: var(--txt-dark); margin-bottom: 10px; }
+.step p  { font-size: 12.5px; color: var(--txt-mid); line-height: 1.8; }
+
+/* ────────────────────── PRODUCTS (Tinted bg) ────────────────────── */
+#products { background: var(--off-white); }
+.prod-wrap {
+  display: grid; grid-template-columns: 280px 1fr;
+  gap: 0; margin-top: 56px;
+  border: 1px solid var(--moon-ll);
+  position: relative;
+}
+.prod-wrap::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--moon));
+}
+.prod-nav { border-right: 1px solid var(--moon-ll); background: var(--white); }
+.prod-item {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 20px 24px; border-bottom: 1px solid var(--moon-lll);
+  cursor: pointer; transition: background .2s;
+  border-left: 3px solid transparent;
+}
+.prod-item:last-child { border-bottom: none; }
+.prod-item:hover { background: var(--off-white); }
+.prod-item.on { background: var(--moon-lll); border-left-color: var(--gold); }
+.prod-item.on .pi-n { color: var(--gold); }
+.pi-n { font-size: 9.5px; font-weight: 800; color: var(--moon); letter-spacing: 1px; min-width: 18px; margin-top: 2px; }
+.pi-name { font-size: 12px; font-weight: 600; color: var(--txt-dark); line-height: 1.45; }
+
+.prod-body { padding: 48px 50px; background: var(--white); }
+.prod-body h3 { font-size: 22px; font-weight: 900; color: var(--txt-dark); letter-spacing: -.5px; margin-bottom: 14px; }
+.prod-desc {
+  font-size: 14px; color: var(--txt-mid); line-height: 1.9;
+  padding-bottom: 32px; border-bottom: 1px solid var(--moon-ll);
+}
+.usp-label {
+  font-size: 9.5px; font-weight: 800; letter-spacing: 2.5px;
+  color: var(--gold-d); text-transform: uppercase;
+  margin: 28px 0 18px;
+}
+.usp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.usp-box {
+  padding: 18px 20px; border: 1px solid var(--moon-ll);
+  background: var(--off-white); transition: border-color .2s, background .2s;
+}
+.usp-box:hover { border-color: var(--moon); background: var(--moon-lll); }
+.usp-box::before { content: ''; display: block; width: 18px; height: 2px; background: var(--moon); margin-bottom: 12px; }
+.usp-box p { font-size: 12.5px; color: var(--txt-mid); line-height: 1.75; }
+
+.consult-strip {
+  margin-top: 16px; padding: 18px 20px;
+  border: 1px solid rgba(255,198,79,.4); background: rgba(255,198,79,.05);
+  display: flex; gap: 14px; align-items: flex-start;
+}
+.consult-strip p { font-size: 12.5px; color: var(--txt-mid); line-height: 1.75; }
+.consult-strip strong { color: var(--gold-d); }
+
+/* ────────────────────── CONTACT (Dark Gunmetal bg) ────────────────────── */
+#contact {
+  background: var(--moon-ddd);
+  position: relative; overflow: hidden;
+}
+/* Subtle orb behind contact */
+#contact::before {
+  content: ''; position: absolute; top: -80px; right: -80px;
+  width: 450px; height: 450px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(81,156,171,.10) 0%, transparent 70%);
+  pointer-events: none;
+}
+.contact-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 72px; margin-top: 56px; align-items: start; }
+
+.info-list { border: 1px solid rgba(81,156,171,.3); position: relative; }
+.info-list::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--moon), var(--gold)); }
+.ic {
+  display: flex; align-items: flex-start; gap: 16px;
+  padding: 20px 24px; border-bottom: 1px solid rgba(81,156,171,.2);
+  transition: background .2s;
+}
+.ic:last-child { border-bottom: none; }
+.ic:hover { background: rgba(81,156,171,.06); }
+.ic-ico {
+  width: 36px; height: 36px; border: 1px solid rgba(81,156,171,.35);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; flex-shrink: 0;
+}
+.ic-lbl { font-size: 9px; font-weight: 800; color: var(--moon-ll); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 4px; }
+.ic-val { font-size: 13.5px; color: rgba(255,255,255,.85); }
+
+.form-card {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(81,156,171,.3);
+  padding: 44px; position: relative;
+}
+.form-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--gold), var(--moon)); }
+.frow { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.fg { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+.fg.full { grid-column: 1 / -1; }
+.frow .fg { margin-bottom: 0; }
+.fg label { font-size: 9.5px; font-weight: 800; color: var(--moon-ll); letter-spacing: 2px; text-transform: uppercase; }
+.fg input, .fg select, .fg textarea {
+  background: transparent; border: 1px solid rgba(81,156,171,.3);
+  color: rgba(255,255,255,.9); padding: 12px 16px;
+  font-family: 'Manrope', sans-serif; font-size: 13.5px;
+  outline: none; resize: none; transition: border-color .2s;
+  -webkit-appearance: none; appearance: none;
+}
+.fg input:focus, .fg select:focus, .fg textarea:focus { border-color: var(--moon); }
+.fg input::placeholder, .fg textarea::placeholder { color: rgba(255,255,255,.25); }
+.fg select option { background: var(--moon-ddd); }
+.submit-btn {
+  width: 100%; background: var(--gold); color: var(--hero-bg);
+  padding: 15px; border: none; margin-top: 8px;
+  font-family: 'Manrope', sans-serif; font-size: 12px; font-weight: 900;
+  letter-spacing: 2px; text-transform: uppercase; cursor: pointer;
+  transition: opacity .2s;
+}
+.submit-btn:hover { opacity: .88; }
+
+/* ────────────────────── FOOTER ────────────────────── */
+footer {
+  background: #0a1416;
+  border-top: 1px solid rgba(81,156,171,.25);
+  padding: 40px 64px;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;
+}
+.foot-logo { display: flex; align-items: center; gap: 13px; }
+.foot-copy { font-size: 11px; color: rgba(255,255,255,.3); }
+.foot-links { display: flex; gap: 28px; }
+.foot-links a { font-size: 11px; color: rgba(255,255,255,.3); text-decoration: none; transition: color .2s; }
+.foot-links a:hover { color: var(--moon); }
+
+/* ────────────────────── RESPONSIVE ────────────────────── */
+@media (max-width: 1020px) {
+  #nav { padding: 0 24px; }
+  .nav-links, .nav-cta { display: none; }
+  .sec { padding: 80px 24px; }
+  .hero-inner { padding: 120px 24px 80px; grid-template-columns: 1fr; gap: 40px; }
+  .hero-card { display: none; }
+  .about-grid { grid-template-columns: 1fr; }
+  .about-col:first-child { border-right: none; border-bottom: 1px solid var(--moon-ll); }
+  .sol-top { grid-template-columns: 1fr; gap: 20px; }
+  .sol-grid { grid-template-columns: 1fr; }
+  .sol-c { border-right: none; border-bottom: 1px solid var(--moon-ll); }
+  .sol-c:last-child { border-bottom: none; }
+  .how-steps { grid-template-columns: 1fr 1fr; }
+  .step { border-bottom: 1px solid var(--moon-ll); }
+  .how-steps .step:nth-child(even) { border-right: none; }
+  .prod-wrap { grid-template-columns: 1fr; }
+  .prod-nav { border-right: none; border-bottom: 1px solid var(--moon-ll); }
+  .prod-body { padding: 32px 24px; }
+  .usp-grid { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+  .frow { grid-template-columns: 1fr; }
+  footer { padding: 32px 24px; flex-direction: column; text-align: center; }
+  .hero-scroll { left: 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#hero" class="logo">
+    <svg class="logo-svg" viewBox="0 0 40 46" fill="none">
+      <polygon points="20,1 31,9.5 20,18 9,9.5" fill="#FFC64F"/>
+      <polygon points="6,17 20,25.5 34,17 34,40 27,36 20,40 13,36 6,40" fill="#519CAB"/>
+      <polygon points="11,22 20,27.5 29,22 29,36 24,33 20,36 16,33 11,36" fill="#294E56" opacity=".8"/>
+    </svg>
+    <div class="logo-txt">
+      <span class="l1">IMMERSIA</span>
+      <span class="l2">Solusi Analitika</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#solutions">Solutions</a></li>
+    <li><a href="#how">How We Work</a></li>
+    <li><a href="#products">Products</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Hubungi Kami</button>
+</nav>
+
+<!-- HERO — Dark Gunmetal -->
+<section id="hero">
+  <div class="hero-bg-grad"></div>
+  <div class="hero-aurora"></div>
+  <canvas id="hero-canvas"></canvas>
+
+  <div class="hero-inner">
+    <div>
+      <div class="hero-chip">
+        <div class="chip-dot"></div>
+        <span class="chip-txt">Immersia Solusi Analitika — Lab Digital Partner</span>
+      </div>
+      <h1 class="hero-h1">
+        Immersive<br>
+        <span class="h1-teal">Analytical</span><br>
+        Solution for<br>
+        <span class="h1-gold">Digital Transformation</span>
+      </h1>
+      <p class="hero-p">Mitra terpercaya dalam transformasi digital laboratorium — mengintegrasikan data, teknologi, dan kecerdasan artifisial menjadi satu solusi yang utuh dan imersif.</p>
+      <div class="hero-btns">
+        <a href="#solutions" class="btn-fill">Lihat Solusi Kami</a>
+        <a href="#contact" class="btn-outline">Konsultasi Gratis</a>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <div class="hc-head">
+        <div class="hc-head-lbl">Capabilities at a glance</div>
+        <div class="hc-head-sub">Solusi terintegrasi dari hulu ke hilir untuk laboratorium modern Indonesia</div>
+      </div>
+      <div class="hc-stat"><div class="hc-ico">🏭</div><div><div class="hc-val">5<sup>+</sup></div><div class="hc-lbl">Sektor industri dilayani</div></div></div>
+      <div class="hc-stat"><div class="hc-ico">🔬</div><div><div class="hc-val">ISO<sup>17025</sup></div><div class="hc-lbl">Certification support</div></div></div>
+      <div class="hc-stat"><div class="hc-ico">🤖</div><div><div class="hc-val">AI<sup>Powered</sup></div><div class="hc-lbl">ML & predictive analytics</div></div></div>
+      <div class="hc-stat"><div class="hc-ico">⚡</div><div><div class="hc-val">360°</div><div class="hc-lbl">End-to-end solution</div></div></div>
+    </div>
+  </div>
+
+  <div class="hero-scroll"><div class="scroll-line"></div><span>Scroll</span></div>
+</section>
+
+<!-- ABOUT — White -->
+<section id="about" class="sec sec-white">
+  <div class="wrap">
+    <div class="eyebrow">01 — About Us</div>
+    <h2 class="sec-h">Kristalisasi Data Menjadi<br><em>Solusi Imersif</em></h2>
+    <div class="about-grid">
+      <div class="about-col">
+        <div class="col-tag">Filosofi</div>
+        <h3>Data adalah Aset Berharga yang Perlu Dikristalisasi</h3>
+        <p>Data adalah hamparan modular dalam ruang gelap — kompleksitas jutaan data mentah dan arsitektur teknologi yang masif. Di tengah kerumitan tersebut, terjadi proses kristalisasi yang digambarkan melalui puncak-puncak kubus yang memancarkan cahaya emas terang benderang.<br><br>Immersia Solusi Analitika merevolusi pengelolaan data menjadi layaknya kubus kristal bercahaya yang sarat akan solusi imersif. Melalui pendekatan ini, seluruh esensi pengetahuan dan inovasi masa depan berhasil disederhanakan menjadi satu kesatuan solusi yang utuh.</p>
+      </div>
+      <div class="about-col">
+        <div class="col-tag">What We Do</div>
+        <h3>Partner Digitalisasi & Automasi Terpercaya</h3>
+        <p>PT Immersia Solusi Analitika menyediakan solusi terintegrasi dalam digitalisasi dan automasi di Indonesia untuk mendorong peningkatan kualitas dan produktivitas di sektor industri utama.</p>
+        <div class="sector-list">
+          <div class="sr"><span class="sr-num">01</span>Mining & Energy</div>
+          <div class="sr"><span class="sr-num">02</span>Food & Agriculture</div>
+          <div class="sr"><span class="sr-num">03</span>Research & Education</div>
+          <div class="sr"><span class="sr-num">04</span>Healthcare</div>
+          <div class="sr"><span class="sr-num">05</span>Environment & Pharma</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTIONS — Light tint -->
+<section id="solutions" class="sec sec-tint">
+  <div class="wrap">
+    <div class="sol-top">
+      <div>
+        <div class="eyebrow">02 — Solutions</div>
+        <h2 class="sec-h">Solusi untuk<br><em>Setiap Industri</em></h2>
+      </div>
+      <p class="sec-lead">Dikustomisasi sesuai kebutuhan spesifik setiap sektor — dari pertambangan skala besar hingga riset akademis yang presisi.</p>
+    </div>
+    <div class="sol-grid">
+      <div class="sol-c">
+        <div class="sol-bar"></div>
+        <div class="sol-ghost">01</div>
+        <div class="sol-icon">⛏️</div>
+        <h3>Mining & Energy</h3>
+        <p>Solusi LIMS dan analitik data untuk optimasi proses laboratorium pertambangan, pengujian kualitas bahan baku, dan efisiensi operasional energi. Build integration from upstream to downstream.</p>
+        <div class="sol-tags"><span class="sol-tag">Kualitas Bahan Baku</span><span class="sol-tag">Real-time</span><span class="sol-tag">LIMS</span></div>
+      </div>
+      <div class="sol-c">
+        <div class="sol-bar"></div>
+        <div class="sol-ghost">02</div>
+        <div class="sol-icon">🌾</div>
+        <h3>Food & Agriculture</h3>
+        <p>Digitalisasi pengujian mutu pangan, traceability agrikultur, dan pengelolaan data laboratorium food & beverage sesuai standar regulasi nasional dan internasional.</p>
+        <div class="sol-tags"><span class="sol-tag">Mutu Pangan</span><span class="sol-tag">Traceability</span><span class="sol-tag">Regulasi</span></div>
+      </div>
+      <div class="sol-c">
+        <div class="sol-bar"></div>
+        <div class="sol-ghost">03</div>
+        <div class="sol-icon">🔬</div>
+        <h3>Research & Education</h3>
+        <p>Platform manajemen data riset untuk institusi pendidikan dan lembaga penelitian. Mendorong pertumbuhan inovasi dan meningkatkan kualitas riset dengan pendampingan ISO 17025.</p>
+        <div class="sol-tags"><span class="sol-tag">ISO 17025</span><span class="sol-tag">Akreditasi</span><span class="sol-tag">Inovasi</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW WE WORK — White -->
+<section id="how" class="sec sec-white">
+  <div class="wrap">
+    <div class="eyebrow">03 — How We Work</div>
+    <h2 class="sec-h">Proses Kerja yang<br><em>Terstruktur & Transparan</em></h2>
+    <div class="how-steps">
+      <div class="step"><div class="step-n">01</div><h4>Client Brief</h4><p>Memahami seluruh permasalahan dan hambatan yang dialami klien untuk menemukan akar masalah secara mendalam.</p></div>
+      <div class="step"><div class="step-n">02</div><h4>Research</h4><p>Mendiagnosis dan meneliti untuk membuat alternatif solusi yang paling tepat, efisien, dan relevan.</p></div>
+      <div class="step"><div class="step-n">03</div><h4>Concept</h4><p>Mengembangkan konsep dan membuat prototyping teknologi yang sesuai kebutuhan spesifik klien.</p></div>
+      <div class="step"><div class="step-n">04</div><h4>Deploy</h4><p>Demo platform untuk mendapatkan feedback evaluasi dan penyempurnaan sebelum implementasi penuh.</p></div>
+      <div class="step"><div class="step-n">05</div><h4>Launch</h4><p>Mengimplementasikan sistem platform yang telah disepakati bersama sebagai solusi final yang andal.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS — Light tint -->
+<section id="products" class="sec sec-tint">
+  <div class="wrap">
+    <div class="eyebrow">04 — Products & Services</div>
+    <h2 class="sec-h">Ekosistem Solusi<br><em>End-to-End</em></h2>
+    <p class="sec-lead">Dari software LIMS bertenaga AI hingga infrastruktur laboratorium lengkap — semua dalam satu mitra strategis.</p>
+    <div class="prod-wrap">
+      <div class="prod-nav">
+        <div class="prod-item on" data-i="0"><span class="pi-n">01</span><span class="pi-name">LIMS — Laboratory Information Management System</span></div>
+        <div class="prod-item" data-i="1"><span class="pi-n">02</span><span class="pi-name">Data Analytics & Machine Learning</span></div>
+        <div class="prod-item" data-i="2"><span class="pi-n">03</span><span class="pi-name">IoT, Sensors & Automation</span></div>
+        <div class="prod-item" data-i="3"><span class="pi-n">04</span><span class="pi-name">IT Infrastructure</span></div>
+        <div class="prod-item" data-i="4"><span class="pi-n">05</span><span class="pi-name">Laboratory Spareparts & Consumables</span></div>
+      </div>
+      <div class="prod-body">
+        <h3 id="pd-t">LIMS — Laboratory Information Management System</h3>
+        <p class="prod-desc" id="pd-d">Software LIMS dengan teknologi terkini yang memadukan analitik data, machine learning, dan kecerdasan artifisial. Dirancang untuk meningkatkan efisiensi, akurasi, dan traceability seluruh proses laboratorium Anda secara digital dan terintegrasi.</p>
+        <div class="usp-label">Keunggulan & USP</div>
+        <div class="usp-grid">
+          <div class="usp-box"><p>Integrasi mendalam AI, machine learning, dan analitik prediktif untuk wawasan mendalam dan prediksi tren yang akurat.</p></div>
+          <div class="usp-box"><p>One-stop solution end-to-end: LIMS, jasa lab, spare part, consumable, IT, hingga konsultasi dan sertifikasi.</p></div>
+          <div class="usp-box"><p>Fleksibilitas tinggi — dikustomisasi untuk pertambangan, agrikultur, food & beverage, farmasi, dan lingkungan.</p></div>
+          <div class="usp-box"><p>Pendampingan penuh pendirian laboratorium baru dan pencapaian sertifikasi ISO 17025.</p></div>
+        </div>
+        <div class="consult-strip">
+          <div style="font-size:17px;flex-shrink:0;margin-top:1px">📋</div>
+          <p><strong>Layanan Konsultasi:</strong> Konsultasi komprehensif pendirian laboratorium baru serta pendampingan penuh mencapai sertifikasi ISO 17025 demi standar kualitas tertinggi.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT — Dark Gunmetal -->
+<section id="contact" class="sec sec-dark">
+  <div class="wrap">
+    <div class="eyebrow">05 — Contact Us</div>
+    <h2 class="sec-h">Mari Berdiskusi</h2>
+    <p class="sec-lead">Siap membantu transformasi digital laboratorium Anda. Hubungi kami untuk konsultasi tanpa biaya.</p>
+    <div class="contact-grid">
+      <div>
+        <div class="info-list">
+          <div class="ic"><div class="ic-ico">🌐</div><div><div class="ic-lbl">Website</div><div class="ic-val">www.imersia.co.id</div></div></div>
+          <div class="ic"><div class="ic-ico">📍</div><div><div class="ic-lbl">Kantor</div><div class="ic-val">Jl. Scientia Boulevard No. 1, Gading Serpong, Tangerang 15810</div></div></div>
+          <div class="ic"><div class="ic-ico">📞</div><div><div class="ic-lbl">Telepon</div><div class="ic-val">+62 21 1234 5678</div></div></div>
+          <div class="ic"><div class="ic-ico">✉️</div><div><div class="ic-lbl">Email</div><div class="ic-val">info@imersia.co.id</div></div></div>
+        </div>
+      </div>
+      <div class="form-card">
+        <div class="frow">
+          <div class="fg"><label>Nama Lengkap</label><input type="text" placeholder="Nama Anda"></div>
+          <div class="fg"><label>Email</label><input type="email" placeholder="nama@perusahaan.com"></div>
+          <div class="fg"><label>Perusahaan</label><input type="text" placeholder="Nama perusahaan"></div>
+          <div class="fg"><label>Industri</label>
+            <select><option value="">Pilih industri...</option><option>Mining & Energy</option><option>Food & Agriculture</option><option>Research & Education</option><option>Healthcare</option><option>Farmasi</option><option>Lingkungan</option><option>Lainnya</option></select>
+          </div>
+        </div>
+        <div class="fg full"><label>Pesan</label><textarea rows="5" placeholder="Ceritakan kebutuhan laboratorium Anda..."></textarea></div>
+        <button class="submit-btn">Kirim Pesan →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-logo">
+    <svg width="28" height="32" viewBox="0 0 40 46" fill="none">
+      <polygon points="20,1 31,9.5 20,18 9,9.5" fill="#FFC64F"/>
+      <polygon points="6,17 20,25.5 34,17 34,40 27,36 20,40 13,36 6,40" fill="#519CAB"/>
+      <polygon points="11,22 20,27.5 29,22 29,36 24,33 20,36 16,33 11,36" fill="#294E56" opacity=".8"/>
+    </svg>
+    <div>
+      <div style="font-size:13px;font-weight:900;letter-spacing:3.5px;color:#fff;">IMMERSIA</div>
+      <div style="font-size:7px;font-weight:600;letter-spacing:3px;color:#519CAB;text-transform:uppercase;">Solusi Analitika</div>
+    </div>
+  </div>
+  <span class="foot-copy">© 2026 PT Immersia Solusi Analitika. All rights reserved.</span>
+  <div class="foot-links">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="#contact">Contact</a>
+  </div>
+</footer>
+
+<script>
+/* ── HERO CANVAS: soft floating orbs + gentle particles ── */
+(function () {
+  const canvas = document.getElementById('hero-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H;
+  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+
+  /* 6 soft orbs — teal & gold, no hard edges */
+  const orbs = [
+    { x:.15, y:.5,  r:220, vx:.0003, vy:.0002, c:'teal', ph:0 },
+    { x:.8,  y:.2,  r:180, vx:-.0002,vy:.0003, c:'gold', ph:1.2 },
+    { x:.5,  y:.85, r:200, vx:.0002, vy:-.0002,c:'teal', ph:2.4 },
+    { x:.9,  y:.7,  r:150, vx:-.0003,vy:-.0002,c:'teal', ph:3.6 },
+    { x:.3,  y:.15, r:130, vx:.0002, vy:.0003, c:'gold', ph:4.8 },
+    { x:.6,  y:.5,  r:170, vx:-.0002,vy:.0002, c:'teal', ph:0.6 },
+  ];
+
+  /* ~50 fine particles */
+  const pts = Array.from({length: 50}, () => ({
+    x: Math.random(), y: Math.random(),
+    vx: (Math.random()-.5)*.00015, vy: (Math.random()-.5)*.00015,
+    r: .5 + Math.random()*1.2,
+    a: .08 + Math.random()*.28
+  }));
+
+  let t = 0;
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    t += .012;
+
+    orbs.forEach(o => {
+      o.x += o.vx; o.y += o.vy;
+      if (o.x < -.1) o.x = 1.1; if (o.x > 1.1) o.x = -.1;
+      if (o.y < -.1) o.y = 1.1; if (o.y > 1.1) o.y = -.1;
+      const px = o.x * W, py = o.y * H;
+      const pulse = 1 + .07 * Math.sin(t + o.ph);
+      const gr = ctx.createRadialGradient(px, py, 0, px, py, o.r * pulse);
+      if (o.c === 'teal') {
+        gr.addColorStop(0,   'rgba(81,156,171,.10)');
+        gr.addColorStop(.5,  'rgba(81,156,171,.04)');
+        gr.addColorStop(1,   'rgba(81,156,171,0)');
+      } else {
+        gr.addColorStop(0,   'rgba(255,198,79,.08)');
+        gr.addColorStop(.5,  'rgba(255,198,79,.03)');
+        gr.addColorStop(1,   'rgba(255,198,79,0)');
+      }
+      ctx.beginPath();
+      ctx.arc(px, py, o.r * pulse, 0, Math.PI * 2);
+      ctx.fillStyle = gr;
+      ctx.fill();
+    });
+
+    pts.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = 1; if (p.x > 1) p.x = 0;
+      if (p.y < 0) p.y = 1; if (p.y > 1) p.y = 0;
+      ctx.beginPath();
+      ctx.arc(p.x * W, p.y * H, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(81,156,171,${p.a})`;
+      ctx.fill();
+    });
+
+    /* Soft connection lines */
+    const maxD = .12;
+    for (let i = 0; i < pts.length; i++) {
+      for (let j = i + 1; j < pts.length; j++) {
+        const dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y;
+        const d = Math.sqrt(dx*dx + dy*dy);
+        if (d < maxD) {
+          ctx.beginPath();
+          ctx.moveTo(pts[i].x * W, pts[i].y * H);
+          ctx.lineTo(pts[j].x * W, pts[j].y * H);
+          ctx.strokeStyle = `rgba(81,156,171,${.07 * (1 - d / maxD)})`;
+          ctx.lineWidth = .5;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ── NAV ── */
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('stuck', window.scrollY > 20);
+});
+
+/* ── Products tab ── */
+const PD = [
+  { t: 'LIMS — Laboratory Information Management System',
+    d: 'Software LIMS dengan teknologi terkini yang memadukan analitik data, machine learning, dan kecerdasan artifisial. Dirancang untuk meningkatkan efisiensi, akurasi, dan traceability seluruh proses laboratorium secara digital dan terintegrasi.' },
+  { t: 'Data Analytics & Machine Learning',
+    d: 'Solusi analitik data dan machine learning yang mengolah data laboratorium menjadi insight strategis. Dari visualisasi data real-time hingga model prediktif untuk pengendalian kualitas yang proaktif dan berbasis data.' },
+  { t: 'IoT, Sensors & Automation',
+    d: 'Integrasi perangkat IoT dan sensor cerdas ke dalam ekosistem laboratorium untuk monitoring otomatis, pengumpulan data presisi tinggi, dan otomasi alur kerja laboratorium secara seamless dan efisien.' },
+  { t: 'IT Infrastructure',
+    d: 'Penyediaan dan pengelolaan infrastruktur IT komprehensif — dari server on-premise, cloud deployment, hingga jaringan dan keamanan data — untuk mendukung operasional digital laboratorium yang andal dan aman.' },
+  { t: 'Laboratory Spareparts & Consumables',
+    d: 'Pengadaan suku cadang laboratorium, bahan habis pakai, dan reagent berkualitas tinggi dari merek-merek terpercaya global, dengan jaminan keaslian dan ketersediaan stok yang konsisten untuk kebutuhan laboratorium Anda.' },
+];
+document.querySelectorAll('.prod-item').forEach(el => {
+  el.addEventListener('click', () => {
+    document.querySelectorAll('.prod-item').forEach(x => x.classList.remove('on'));
+    el.classList.add('on');
+    const d = PD[+el.dataset.i];
+    document.getElementById('pd-t').textContent = d.t;
+    document.getElementById('pd-d').textContent = d.d;
+  });
+});
+</script>
+</body>
+</html>
